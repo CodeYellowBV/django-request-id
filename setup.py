@@ -9,7 +9,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-version = "0.1.0"
+version = "0.2.0"
 
 if sys.argv[-1] == "publish":
     os.system("python setup.py sdist bdist_wheel upload")
@@ -35,7 +35,7 @@ setup(
     ],
     include_package_data=True,
     install_requires=[
-        "django",
+        "django>=1.10.0",
         "django-appconf>=0.6"
     ],
     zip_safe=False,

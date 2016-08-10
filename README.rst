@@ -29,7 +29,7 @@ Quickstart
    going to use the ``{% request_id %}`` template tag).
 
 3. Add ``request_id.middleware.RequestIdMiddleware`` to the top of
-   ``MIDDLEWARE_CLASSES``.
+   ``MIDDLEWARE``.
 
 4. The app integrates with the standard Python/Django logging by defining
    a filter that puts a ``request_id`` variable in scope of every log message.
@@ -122,7 +122,7 @@ Quickstart
 Dependencies
 ------------
 
-``django-request-id`` depends on ``django-appconf>=0.6``.
+``django-request-id`` depends on ``django-appconf>=0.6`` and requires Django 1.10.0 or later.
 
 Documentation
 -------------

@@ -16,12 +16,15 @@ def get_request_id(request):
 
 
 class RequestIdMiddleware(object):
+    def __init__(self, get_response):
+        self.get_response = get_response
 
-    def process_request(self, request):
+    def __call__(self, request):
         request_id = get_request_id(request)
         request.request_id = request_id
         local.request_id = request_id
 
-    def process_response(self, request, response):
+        response = self.get_response(request)
+
         release_local(local)
         return response

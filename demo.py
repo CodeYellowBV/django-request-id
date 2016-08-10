@@ -13,7 +13,7 @@ import logging
 import os
 
 from django.conf import settings
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.core.wsgi import get_wsgi_application
 
 basename = os.path.splitext(os.path.basename(__file__))[0]
@@ -30,12 +30,17 @@ if not settings.configured:
         DEBUG=True,
         TIMEZONE="UTC",
         INSTALLED_APPS=["request_id"],
-        MIDDLEWARE_CLASSES=["request_id.middleware.RequestIdMiddleware"],
+        MIDDLEWARE=["request_id.middleware.RequestIdMiddleware"],
         ROOT_URLCONF=basename,
         WSGI_APPLICATION="{}.application".format(basename),
-        TEMPLATE_DIRS=[rel("tests", "templates")],
-        TEMPLATE_CONTEXT_PROCESSORS=[
-            "django.core.context_processors.request"
+        TEMPLATES=[
+            {
+                'DIRS': [rel("tests", "templates")],
+                'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                'OPTIONS': {
+                    'context_processors': [ "django.template.context_processors.request" ],
+                },
+            },
         ],
         LOGGING={
             "version": 1,
@@ -96,9 +101,9 @@ class HelloView(TemplateView):
         return super(HelloView, self).render_to_response(context, **response_kwargs)
 
 
-urlpatterns = patterns("",
+urlpatterns = [
     url(r"^$", HelloView.as_view())
-)
+]
 
 
 # WSGI
